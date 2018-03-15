@@ -70,6 +70,8 @@ function main()
     sigma = 1; %standard deviation vector
     n = 1; %control parameter
     
+    context = setContext(@distanceFitness, N, Gmax);
+    
     %REPLACEMENT
     tournament = false; % False for kill worst, True for kill tournament
     
