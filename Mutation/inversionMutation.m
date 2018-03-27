@@ -8,14 +8,9 @@ function child = inversionMutation( child )
     idxDestination = randi([1, L]);
     
     while (idxToInsert <= idxDestination) && (idxDestination < idxToInsert + n)
-        disp("idxDestination WHILE : " + idxDestination);
         idxDestination = randi([1, L]);
     end
-    
-    disp("idxToInsert : " + idxToInsert);
-    disp("numToInsert : " + n);
-    disp("idxDestination : " + idxDestination);
-    
+
     if idxToInsert < idxDestination
         child(idxToInsert : idxDestination-n) = child(idxToInsert+n:idxDestination);
         child(idxDestination-n+1:idxDestination) = locusToInsert;

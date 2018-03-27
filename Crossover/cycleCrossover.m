@@ -4,8 +4,8 @@ function children = cycleCrossover(firstParent, secondParent)
     L = length(firstParent);
     firstChild = zeros(1, L);
     secondChild = zeros(1, L);
-    assert(all(firstParent), "firstParent should not contain 0");
-    assert(all(secondParent), "secondParent should not contain 0");
+%     assert(all(firstParent), "firstParent should not contain 0");
+%     assert(all(secondParent), "secondParent should not contain 0");
 
     elem1 = firstParent(1);
     elem2 = secondParent(1);

@@ -3,14 +3,31 @@ function main()
     % Comment/Uncomment to choose your parameters
 
     %GENERAL SETTINGS
-    N = 10; %Number of cities
-    S = 20; %Number of possibilities in one generation
+    N = 20; %Number of cities
+    S = 100; %Number of possibilities in one generation
     
     Gmax = 50; %Generation max
-    pc = 0.8; %Crossover probability
-    pm = 0.01; %Mutation probability
-    lambda = 10; %Number of children
+    pc = 0.9; %Crossover probability
+    pm = 0.25; %Mutation probability
+    lambda = S; %Number of children
     M = lambda+mod(lambda, 2); %MatingPool size
+    
+    %SELECTION
+%     selectionFunction = @rws;
+%      selectionFunction = @stochasticUniversalSampling;
+    selectionFunction = @tournamentSelection; %need k
+    k = 2; %size of tournament
+    
+    %CROSSOVER
+    crossoverFunction = @cycleCrossover;
+%     crossoverFunction = @partialCrossover;
+    
+    %MUTATION
+    mutationFunction = @insertionMutation;
+%     mutationFunction = @inversionMutation;
+    
+    %REPLACEMENT
+    tournament = false; % False for kill worst, True for kill tournament
     
     %FITNESS
     fitnessFunction = @distanceFitness;
@@ -29,26 +46,6 @@ function main()
     alphaRanking = 1.7;
     r=2/N^2;
     nonLinearAlpha = 0.9;
-
-    %SELECTION
-%     selectionFunction = @rws;
-%      selectionFunction = @stochasticUniversalSampling;
-    selectionFunction = @tournamentSelection; %need k
-    k = 2; %size of tournament
-    
-    %CROSSOVER
-    crossoverFunction = @partialCrossover;
-    
-    %MUTATION
-    mutationFunction = @insertionMutation;
-    
-    context = setContext(fitnessFunction, N, S, Gmax);
-    
-    %REPLACEMENT
-    tournament = false; % False for kill worst, True for kill tournament
-    
-    %FEASIBILITY
-    feasibilityFunction = @TSPMethod;
     
     %STOPPING CONDITIONS
     threshold = 0; %stop the execution if abs(fitnessMeanGi+1 - fitnessMeanGi) < threshold
@@ -59,15 +56,17 @@ function main()
     oldscores = zeros(Gmax, S); %same as scores, used to keep track of scores before fitness modifications
     pop = zeros(Gmax, S, N); %pop is a matrix of chromosomes
     
+    context = setContext(fitnessFunction, N, S, Gmax);
+    
+    tic
     % INITIALIZATION
     [cities, pop(1,:,:)] = initialization(context); 
-
     
     % Process all generations
     for g=1:Gmax 
     	popg = reshape(pop(g,:, :), [S, N]);    
         % EVALUATION
-        [scores(g,:), oldscores(g,:)] = evaluation(context, popg, cities); 
+        [scores(g,:), oldscores(g,:)] = evaluation(context, popg, cities, scalingFunction, c); 
         % RANKING
         rankedScores = ranking(rankingFunction,scores(g,:), alphaRanking, r, nonLinearAlpha);
         % SELECTION
@@ -81,6 +80,12 @@ function main()
         % TEST FEASIBILITY
         pop(g+1,:,:) = testFeasibility(reshape(pop(g+1,:, :), [S, N])); 
     end
+    toc
+    
+    tic
+    % DISPLAY
+    displayBestSolution(pop, oldscores, cities, context);
+    toc
 end
     
 

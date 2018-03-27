@@ -1,4 +1,4 @@
-function [scores, oldscores] = evaluation(context, popg, cities)
+function [scores, oldscores] = evaluation(context, popg, cities, scalingFunction, c)
     scores = zeros(context.S, 1); 
     
     for i=1:context.S
@@ -14,5 +14,5 @@ function [scores, oldscores] = evaluation(context, popg, cities)
     end
     
     % SCALING
-%     scores = scalingFunction(scores, c);
+    scores = scalingFunction(scores, c);
 end
