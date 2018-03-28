@@ -5,12 +5,17 @@ function child = inversionMutation( child )
     idxToInsert = randi([1, L]);
     n = randi([1, L-idxToInsert+1]);
     locusToInsert = fliplr(child(idxToInsert:idxToInsert+n-1));
-    idxDestination = randi([1, L]);
     
-    while (idxToInsert <= idxDestination) && (idxDestination < idxToInsert + n)
-        idxDestination = randi([1, L]);
+    if (idxToInsert+n <= L)
+        possibleDestination = [child(1:idxToInsert) child(idxToInsert+n:L)];
+    else
+        possibleDestination = child(1:idxToInsert);
     end
-
+    
+    idx = randi([1, length(possibleDestination)]);
+    idxDestination = find(possibleDestination(idx) == child);
+    assert((idxToInsert >= idxDestination) || (idxDestination >= idxToInsert + n));
+   
     if idxToInsert < idxDestination
         child(idxToInsert : idxDestination-n) = child(idxToInsert+n:idxDestination);
         child(idxDestination-n+1:idxDestination) = locusToInsert;

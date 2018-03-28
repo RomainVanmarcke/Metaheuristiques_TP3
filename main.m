@@ -1,4 +1,4 @@
-function main()
+function main(cities)
     %% CONFIGURATION PART 
     % Comment/Uncomment to choose your parameters
 
@@ -9,7 +9,7 @@ function main()
     Gmax = 50; %Generation max
     pc = 0.9; %Crossover probability
     pm = 0.25; %Mutation probability
-    lambda = S; %Number of children
+    lambda = 0.9*S; %Number of children
     M = lambda+mod(lambda, 2); %MatingPool size
     
     %SELECTION
@@ -19,15 +19,15 @@ function main()
     k = 2; %size of tournament
     
     %CROSSOVER
-%     crossoverFunction = @cycleCrossover;
-    crossoverFunction = @partialCrossover;
+    crossoverFunction = @cycleCrossover;
+%     crossoverFunction = @partialCrossover;
 %     crossoverFunction = @positionalCrossover;
     locusNb = 4;
      
     %MUTATION
 %     mutationFunction = @insertionMutation;
-%     mutationFunction = @inversionMutation;
-    mutationFunction = @shiftingMutation;
+    mutationFunction = @inversionMutation;
+%     mutationFunction = @shiftingMutation;
 %     mutationFunction = @exchangeMutation;
     
     %REPLACEMENT
@@ -64,7 +64,9 @@ function main()
     
     tic
     % INITIALIZATION
-    [cities, pop(1,:,:)] = initialization(context); 
+    pop(1,:,:) = initialization(context); 
+   
+%     cities = initCities(context.N, context.L);
     
     % Process all generations
     for g=1:Gmax 
