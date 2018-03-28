@@ -19,12 +19,16 @@ function main()
     k = 2; %size of tournament
     
     %CROSSOVER
-    crossoverFunction = @cycleCrossover;
+%     crossoverFunction = @cycleCrossover;
 %     crossoverFunction = @partialCrossover;
-    
+    crossoverFunction = @positionalCrossover;
+    locusNb = 4;
+     
     %MUTATION
-    mutationFunction = @insertionMutation;
+%     mutationFunction = @insertionMutation;
 %     mutationFunction = @inversionMutation;
+    mutationFunction = @shiftingMutation;
+%     mutationFunction = @exchangeMutation;
     
     %REPLACEMENT
     tournament = false; % False for kill worst, True for kill tournament
@@ -72,7 +76,7 @@ function main()
         % SELECTION
         matingPool= selection(selectionFunction, rankedScores, M, popg, k); %matingPool is a vector of chromosomes
         % CROSSOVER
-        children = crossover(crossoverFunction, matingPool, pc, N); %children is a vector of chromosomes
+        children = crossover(crossoverFunction, matingPool, pc, N, locusNb); %children is a vector of chromosomes
         % MUTATION
         mutatedChildren = mutation(mutationFunction, children, pm);
         % REPLACEMENT

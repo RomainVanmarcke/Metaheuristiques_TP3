@@ -1,4 +1,4 @@
-function children = crossover(crossoverFunction, matingPool, pc, N)
+function children = crossover(crossoverFunction, matingPool, pc, N, locusNb)
     M = size(matingPool,1);
     perm = randperm(M);
     children =  zeros(M, N);
@@ -7,7 +7,7 @@ function children = crossover(crossoverFunction, matingPool, pc, N)
         firstParent = matingPool(perm(i),:);
         secondParent = matingPool(perm(i+1),:);
         if (rand <= pc )
-            childpeer = crossoverFunction(firstParent, secondParent);
+            childpeer = crossoverFunction(firstParent, secondParent, locusNb);
             children(i,:) = childpeer(1,:);
             children(i+1,:) = childpeer(2,:);
         else
