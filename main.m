@@ -20,8 +20,8 @@ function main()
     
     %CROSSOVER
 %     crossoverFunction = @cycleCrossover;
-%     crossoverFunction = @partialCrossover;
-    crossoverFunction = @positionalCrossover;
+    crossoverFunction = @partialCrossover;
+%     crossoverFunction = @positionalCrossover;
     locusNb = 4;
      
     %MUTATION

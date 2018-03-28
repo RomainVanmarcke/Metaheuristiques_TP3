@@ -1,4 +1,4 @@
-function children = partialCrossover( firstParent, secondParent)
+function children = partialCrossover( firstParent, secondParent, ~)
 %PARTIALCROSSOVER 
 %   Detailed explanation goes here
 

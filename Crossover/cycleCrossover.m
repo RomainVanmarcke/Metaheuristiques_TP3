@@ -1,4 +1,4 @@
-function children = cycleCrossover(firstParent, secondParent)
+function children = cycleCrossover(firstParent, secondParent, ~)
 %CYCLECROSSOVER Summary of this function goes here
 %   Detailed explanation goes here
     L = length(firstParent);
